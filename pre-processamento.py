@@ -11,8 +11,8 @@ from transformers import AutoTokenizer  # Or BertTokenizer
 from transformers import AutoModelForPreTraining  # Or BertForPreTraining for loading pretraining heads
 from transformers import AutoModel  # or BertModel, for BERT without pretraining heads
 
-import os
 import torch
+import joblib # salvar df de modo que mantenha os types
 
 # %%
 df_ori = pd.read_csv('Dados/aborto-consolidated-parent-based_treinamento.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
@@ -41,7 +41,7 @@ tokenizer = AutoTokenizer.from_pretrained("neuralmind/bert-base-portuguese-cased
 
 
 # %%
-# Geração das Embeddings
+# Geração das Embeddings - função baseada no código dado pelo Prof.
 def getEmbeddings(text, tokenizer, model):
 
     inputs = tokenizer(
@@ -74,6 +74,7 @@ df = df.drop(columns=['embedding_tuple'])
 # checar por nulos
 nulls = df[df['embedding'].isnull()] # 0
 
-# salvar o DataFrame com as embeddings (demora pra gerar )
-df.to_csv('embeddings/aborto-consolidated-parent-based_treinamento_embeddings.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
 
+# %%
+# salvar o DataFrame com as embeddings (demora pra gerar )
+joblib.dump(df, 'embeddings/aborto-consolidated-parent-based_treinamento-embeddings.joblib')
