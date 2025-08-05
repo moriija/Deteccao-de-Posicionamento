@@ -5,7 +5,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 
 import joblib
-df_treino = joblib.load('embeddings/aborto-consolidated-parent-based_treinamento-embeddings.joblib')
+
+fileName = 'conjuntoDeDados.joblib'
+df_treino = joblib.load('embeddings/'+ fileName)
 
 # %%
 

@@ -1,42 +1,50 @@
+
+# %% 
+import torch
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f'Using device: {device}')  # Verifica se está usando GPU ou CPU
+
 # %%
 import pandas as pd
 import numpy as np
 # import networkx as nx
 
-# %% 
+# CARREGAR O DATASET
+fileName = 'conjuntoDeDados_teste' # sem extensao
 
-# https://huggingface.co/neuralmind/bert-base-portuguese-cased
-# BERTimbau 
-from transformers import AutoTokenizer  # Or BertTokenizer
-from transformers import AutoModelForPreTraining  # Or BertForPreTraining for loading pretraining heads
-from transformers import AutoModel  # or BertModel, for BERT without pretraining heads
-
-import torch
-import joblib # salvar df de modo que mantenha os types
-
-# %%
-df_ori = pd.read_csv('Dados/aborto-consolidated-parent-based_treinamento.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
+df_ori = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
 print(df_ori.columns)
 
 # MANIPULAÇÃO DO DF
 
 df = df_ori.copy()
 # acessaremos as mensagens "parent" e "alvo/target" a partir do id. (Diminiuir o tanto de processamento p/ embeddings)
-df = df.drop(columns=['parent_message', 'target_and_message', 'target_parent_message', 'target_message'])
+# df = df.drop(columns=['parent_message', 'target_and_message', 'target_parent_message', 'target_message'])
 # deixaremos parent_label por enquanto
 # target_id é a chave da thread dos comentarios com o mesmo Alvo.
 
 # definir a label do comentário original como "Comentário Original". (Apenas metade das linhas tinham)
-df.loc[df['id'] == '1', 'label'] = 'Comentário Original'
+""" df.loc[df['id'] == '1', 'label'] = 'Comentário Original'
 
 # todos que tiverem original como parent terão parent_label = 'Comentário Original'
-df.loc[df['parent_id'] == '1', 'parent_label'] = 'Comentário Original'
+df.loc[df['parent_id'] == '1', 'parent_label'] = 'Comentário Original' """
 
 # podemos considerar "Comentário Original" posteriormente como "Concorda".
 
 # %%
+# https://huggingface.co/neuralmind/bert-base-portuguese-cased
+# BERTimbau 
+from transformers import AutoTokenizer  # Or BertTokenizer
+from transformers import AutoModelForPreTraining  # Or BertForPreTraining for loading pretraining heads
+from transformers import AutoModel  # or BertModel, for BERT without pretraining heads
+
+# import torch
+import joblib # salvar df de modo que mantenha os types
+
 #Importando o Modelo BERTimbau
 model = AutoModel.from_pretrained("neuralmind/bert-base-portuguese-cased")
+model = model.to(device) 
 tokenizer = AutoTokenizer.from_pretrained("neuralmind/bert-base-portuguese-cased")
 
 
@@ -52,11 +60,14 @@ def getEmbeddings(text, tokenizer, model):
         max_length=512            # tamanho máximo suportado pelo BERT
     )
 
+    # Move todos os tensores do batch para a GPU
+    inputs = {k: v.to(device) for k, v in inputs.items()}
+
     # função do torch que não utiliza gradientes (vamos apenas extrair embeddings)
     with torch.no_grad():
         outputs = model(**inputs)  # passa os tokens pelo modelo BERT
     # Pega o embedding do token [CLS] (primeiro token), que representa o texto inteiro
-    return outputs.last_hidden_state[:, 0, :].squeeze().numpy()
+    return outputs.last_hidden_state[:, 0, :].squeeze().detach().cpu().numpy()
 
 # %%
 # Gerar embeddings das mensagens de cada comentário
@@ -77,4 +88,4 @@ nulls = df[df['embedding'].isnull()] # 0
 
 # %%
 # salvar o DataFrame com as embeddings (demora pra gerar )
-joblib.dump(df, 'embeddings/aborto-consolidated-parent-based_treinamento-embeddings.joblib')
+joblib.dump(df, 'embeddings/'+ fileName + '.joblib')
