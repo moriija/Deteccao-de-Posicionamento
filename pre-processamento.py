@@ -19,20 +19,29 @@ print(df_ori.columns)
 # MANIPULAÇÃO DO DF
 
 df = df_ori.copy()
+
 # acessaremos as mensagens "parent" e "alvo/target" a partir do id. (Diminiuir o tanto de processamento p/ embeddings)
-# df = df.drop(columns=['parent_message', 'target_and_message', 'target_parent_message', 'target_message'])
-# deixaremos parent_label por enquanto
-# target_id é a chave da thread dos comentarios com o mesmo Alvo.
+# vou criar linhas de mensagem Alvo
 
-# definir a label do comentário original como "Comentário Original". (Apenas metade das linhas tinham)
-""" df.loc[df['id'] == '1', 'label'] = 'Comentário Original'
+linhas_alvo = []
+for thread, group in df.groupby('target_id'):
+    msg = group['target_message'].iloc[0]
 
-# todos que tiverem original como parent terão parent_label = 'Comentário Original'
-df.loc[df['parent_id'] == '1', 'parent_label'] = 'Comentário Original' """
+    linhas_alvo.append({
+        'target_id': thread,
+        'target_message': msg,
+        'id': 'Alvo',
+        'message': msg,
+    })
 
-# podemos considerar "Comentário Original" posteriormente como "Concorda".
+df_tmp = pd.DataFrame(linhas_alvo)
+df = pd.concat([df, df_tmp], ignore_index=True)
 
-# %%
+
+
+# %% -----------------------------------------
+# GERAÇÃO DAS EMBEDDINGS
+
 # https://huggingface.co/neuralmind/bert-base-portuguese-cased
 # BERTimbau 
 from transformers import AutoTokenizer  # Or BertTokenizer
@@ -47,8 +56,6 @@ model = AutoModel.from_pretrained("neuralmind/bert-base-portuguese-cased")
 model = model.to(device) 
 tokenizer = AutoTokenizer.from_pretrained("neuralmind/bert-base-portuguese-cased")
 
-
-# %%
 # Geração das Embeddings - função baseada no código dado pelo Prof.
 def getEmbeddings(text, tokenizer, model):
 
@@ -70,10 +77,11 @@ def getEmbeddings(text, tokenizer, model):
     return outputs.last_hidden_state[:, 0, :].squeeze().detach().cpu().numpy()
 
 # %%
+# SALVAR EMBEDDINGS
+
 # Gerar embeddings das mensagens de cada comentário
 embeddings = [getEmbeddings(text, tokenizer, model) for text in df['message']]
 
-# %%
 df['embedding'] = embeddings
 
 # checar por duplicatas
@@ -86,6 +94,23 @@ df = df.drop(columns=['embedding_tuple'])
 nulls = df[df['embedding'].isnull()] # 0
 
 
-# %%
-# salvar o DataFrame com as embeddings (demora pra gerar )
+# %% ---------------------------------------------
+# Encoding das labels
+# https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02/
+# considerando "Discorda", "Neutro", "Concorda" como variáveis ordinais.
+ordinalEncoding = {
+    'Discorda': -1,
+    'Neutro': 0,
+    'Concorda': 1
+}
+
+# juntar labels "Neutro"
+df['label'] = df['label'].replace('Discute', 'Neutro').replace('Pede Informações', 'Neutro').replace('Irrelevante', 'Neutro')
+df['parent_label'] = df['parent_label'].replace('Discute', 'Neutro').replace('Pede Informações', 'Neutro').replace('Irrelevante', 'Neutro')
+
+df['label_enc'] = df['label'].map(ordinalEncoding)
+df['parent_label_enc'] = df['parent_label'].map(ordinalEncoding)
+
+# %% --------------------------------------------------
+# salvar o df
 joblib.dump(df, 'embeddings/'+ fileName + '.joblib')
