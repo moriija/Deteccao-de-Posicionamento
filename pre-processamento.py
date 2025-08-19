@@ -112,5 +112,5 @@ df['label_enc'] = df['label'].map(ordinalEncoding)
 df['parent_label_enc'] = df['parent_label'].map(ordinalEncoding)
 
 # %% --------------------------------------------------
-# salvar o df
+# salvando o df com todas as transformações
 joblib.dump(df, 'embeddings/'+ fileName + '.joblib')
