@@ -8,13 +8,6 @@ import joblib
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f'Using device: {device}')  # Verifica se está usando GPU ou CPU
 
-# CARREGAR O DATASET
-def carregar_dataset(fileName):
-    # ...existing code...
-    df_ori = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
-    print(df_ori.columns)
-    return df_ori
-
 # MANIPULAÇÃO DO DF
 def manipular_dataframe(df_ori):
     # ...existing code...
@@ -90,6 +83,21 @@ def encode_labels(df):
     df['parent_label_enc'] = df['parent_label'].map(ordinalEncoding)
     return df
     
+def processar_dataset(fileName):
+
+    # manipulacao do dataset original
+    df_ori = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8') 
+    df = manipular_dataframe(df_ori)
+
+    # geração das embeddings
+    model, tokenizer = carregar_modelo_tokenizer()
+    df = gerar_embeddings(df, tokenizer, model)
+    df = encode_labels(df)
+
+    joblib.dump(df, 'embeddings/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
+    return df
+
+# %%
 
 # Selecionando as Features
 def selecionar_features(df):
@@ -118,11 +126,8 @@ def selecionar_features(df):
     # Features: a embedding do comentário, a do alvo e a parent_label.
     emb_atual = np.array(df['embedding'].tolist())
 
-    # precisamos que tenham o mesmo número de linhas (e dimnesões compatíveis)
-    parent_label = df['parent_label_enc'].values.reshape(-1, 1) # Alterna estrutura pra 2D
-
     # FEATURES
-    X_combined = np.concatenate((emb_alvos, emb_atual, parent_label), axis=1)
+    X_combined = np.concatenate((emb_alvos, emb_atual), axis=1)
     """     
     # Verificando as dimensões
     print("Shape of emb_alvos:", emb_alvos.shape)
@@ -131,27 +136,20 @@ def selecionar_features(df):
     print("Shape of X_combined:", X_combined.shape) """
     return df, X_combined
 
-
-def processar_dataset(fileName):
-    df_ori = carregar_dataset(fileName)
-    df = manipular_dataframe(df_ori)
-    model, tokenizer = carregar_modelo_tokenizer()
-    df = gerar_embeddings(df, tokenizer, model)
-    df = encode_labels(df)
-
-    joblib.dump(df, 'embeddings/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
-    return df
-
-# %% MAIN EXECUTION
+# --------------------------------------------------
 
 def main():
-    fileName = 'conjuntoDeDados_treinamento'
-    df = processar_dataset(fileName)
-    df, X_combined = selecionar_features(df)
+    fileName = 'conjuntoDeDados'
+
+    # df = processar_dataset(fileName)
+    df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
+
+    df, X_combined = selecionar_features(df) # tambem retorna df filtrado
 
     dados_input = {
         'features': X_combined,
         'target': df['label_enc'].values,  # Labels codificadas
+        'parent_label': df['parent_label_enc'].values.reshape(-1, 1) # Alterna estrutura pra 2D
     }
 
     joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
