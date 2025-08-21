@@ -93,8 +93,6 @@ def encode_labels(df):
 
 # Selecionando as Features
 def selecionar_features(df):
-    # Features: a embedding do comentário, a do alvo e a parent_label.
-    emb_atual = np.array(df['embedding'].tolist())
 
     # Embedding do Alvo
     # vou separar em dataframes por target_id (cada thread). Deixará depois os diferentes jeitos de separação de features mais facil
@@ -112,6 +110,14 @@ def selecionar_features(df):
         emb_alvos.append(target_id_to_emb_alvo[target_id])
     emb_alvos = np.array(emb_alvos)
 
+    # Filtrar emb_alvos para corresponder ao df filtrado
+    mask = df['label_enc'].notna().values
+    emb_alvos = emb_alvos[mask]
+    df = df[mask]  # Garante alinhamento de índices
+
+    # Features: a embedding do comentário, a do alvo e a parent_label.
+    emb_atual = np.array(df['embedding'].tolist())
+
     # precisamos que tenham o mesmo número de linhas (e dimnesões compatíveis)
     parent_label = df['parent_label_enc'].values.reshape(-1, 1) # Alterna estrutura pra 2D
 
@@ -123,7 +129,7 @@ def selecionar_features(df):
     print("Shape of parent_label:", parent_label.shape)
     print("Shape of emb_atual:", emb_atual.shape)
     print("Shape of X_combined:", X_combined.shape) """
-    return X_combined
+    return df, X_combined
 
 
 def processar_dataset(fileName):
@@ -139,9 +145,9 @@ def processar_dataset(fileName):
 # %% MAIN EXECUTION
 
 def main():
-    fileName = 'conjuntoDeDados'
+    fileName = 'conjuntoDeDados_treinamento'
     df = processar_dataset(fileName)
-    X_combined = selecionar_features(df)
+    df, X_combined = selecionar_features(df)
 
     dados_input = {
         'features': X_combined,
