@@ -10,7 +10,6 @@ print(f'Using device: {device}')  # Verifica se está usando GPU ou CPU
 
 # MANIPULAÇÃO DO DF
 def manipular_dataframe(df_ori):
-    # ...existing code...
     df = df_ori.copy()
     # acessaremos as mensagens "parent" e "alvo/target" a partir do id. (Diminiuir o tanto de processamento p/ embeddings)
     # vou criar linhas de mensagem Alvo
