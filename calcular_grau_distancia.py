@@ -112,20 +112,16 @@ def main():
     Função principal para executar o cálculo de grau de distância
     """
     print("Carregando dados...")
+
+    file_name = 'conjuntoDeDados_teste'
     
     try:
         # Tentar carregar o arquivo principal
-        df = pd.read_csv('Dados/conjuntoDeDados.tsv', sep='\t', decimal=',', encoding='UTF-8')
+        df = pd.read_csv('Dados/'+ file_name +'.tsv', sep='\t', decimal=',', encoding='UTF-8')
         print(f"Dados carregados: {len(df)} linhas")
     except Exception as e:
         print(f"Erro ao carregar conjuntoDeDados.tsv: {e}")
-        try:
-            # Tentar carregar arquivo de treinamento
-            df = pd.read_csv('Dados/conjuntoDeDados_treinamento.tsv', sep='\t', decimal=',', encoding='UTF-8')
-            print(f"Dados de treinamento carregados: {len(df)} linhas")
-        except Exception as e2:
-            print(f"Erro ao carregar arquivo de treinamento: {e2}")
-            return
+        return
     
     print("\nColunas disponíveis:")
     print(df.columns.tolist())
@@ -137,7 +133,7 @@ def main():
     analisar_distribuicao_graus(df_com_grau)
     
     # Salvar resultado
-    output_file = 'Dados/conjuntoDeDados_com_grau_distancia.tsv'
+    output_file = 'Dados/'+file_name +'_grau_distancia.tsv'
     df_com_grau.to_csv(output_file, sep='\t', index=False, encoding='UTF-8')
     print(f"\nResultado salvo em: {output_file}")
     
