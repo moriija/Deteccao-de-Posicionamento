@@ -1,0 +1,402 @@
+CLASSIFICAÇÃO HIERÁRQUICA COM RANDOM FOREST
+==================================================
+Carregando dados...
+Dados de treinamento: 1814 amostras
+Dados de teste: 452 amostras
+Graus únicos treino: [np.float64(0.0), np.float64(1.0), np.float64(2.0), np.float64(3.0), np.float64(4.0), np.float64(5.0), np.float64(6.0), np.float64(7.0), np.float64(8.0), np.float64(9.0), np.float64(10.0), np.float64(11.0), np.float64(12.0), np.float64(13.0), np.float64(14.0), np.float64(15.0), np.float64(16.0)]
+Graus únicos teste: [np.float64(0.0), np.float64(1.0), np.float64(2.0), np.float64(3.0), np.float64(4.0), np.float64(5.0), np.float64(6.0), np.float64(7.0), np.float64(8.0), np.float64(9.0), np.float64(10.0), np.float64(nan)]
+
+Treinando modelo base...
+Modelo base treinado com sucesso!
+
+Iniciando classificação hierárquica...
+Graus de distância obtidos:
+  Treinamento: 1814 amostras, graus: [np.float64(0.0), np.float64(1.0), np.float64(2.0), np.float64(3.0), np.float64(4.0), np.float64(5.0), np.float64(6.0), np.float64(7.0), np.float64(8.0), np.float64(9.0), np.float64(10.0), np.float64(11.0), np.float64(12.0), np.float64(13.0), np.float64(14.0), np.float64(15.0), np.float64(16.0)]
+  Teste: 452 amostras, graus: [np.float64(0.0), np.float64(1.0), np.float64(2.0), np.float64(3.0), np.float64(4.0), np.float64(5.0), np.float64(6.0), np.float64(7.0), np.float64(8.0), np.float64(9.0), np.float64(10.0), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan), np.float64(nan)]
+
+Processando grau 0.0...
+  Grau 0.0: 194 amostras de treino, 55 de teste
+
+Processando grau 1.0...
+  Grau 1.0: 408 amostras de treino, 119 de teste
+
+Processando grau 2.0...
+  Grau 2.0: 305 amostras de treino, 77 de teste
+
+Processando grau 3.0...
+  Grau 3.0: 222 amostras de treino, 61 de teste
+
+Processando grau 4.0...
+  Grau 4.0: 186 amostras de treino, 36 de teste
+
+Processando grau 5.0...
+  Grau 5.0: 142 amostras de treino, 23 de teste
+
+Processando grau 6.0...
+  Grau 6.0: 94 amostras de treino, 12 de teste
+
+Processando grau 7.0...
+  Grau 7.0: 73 amostras de treino, 3 de teste
+
+Processando grau 8.0...
+  Grau 8.0: 61 amostras de treino, 2 de teste
+
+Processando grau 9.0...
+  Grau 9.0: 45 amostras de treino, 1 de teste
+
+Processando grau 10.0...
+  Grau 10.0: 30 amostras de treino, 1 de teste
+
+Processando grau 11.0...
+  Grau 11.0: 22 amostras de treino, 0 de teste
+
+Processando grau 12.0...
+  Grau 12.0: 15 amostras de treino, 0 de teste
+
+Processando grau 13.0...
+  Grau 13.0: 7 amostras de treino, 0 de teste
+
+Processando grau 14.0...
+  Grau 14.0: 5 amostras de treino, 0 de teste
+
+Processando grau 15.0...
+  Grau 15.0: 4 amostras de treino, 0 de teste
+
+Processando grau 16.0...
+  Grau 16.0: 1 amostras de treino, 0 de teste
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+Processando grau nan...
+
+============================================================
+AVALIAÇÃO DO DESEMPENHO POR GRAU DE DISTÂNCIA
+============================================================
+
+Grau 0.0:
+  Amostras: 55
+  Acurácia: 0.818
+  Precision (macro): 0.306
+  Recall (macro): 0.300
+  F1-Score (macro): 0.303
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.00      0.00      0.00         0
+         0.0       0.00      0.00      0.00         5
+         1.0       0.92      0.90      0.91        50
+
+    accuracy                           0.82        55
+   macro avg       0.31      0.30      0.30        55
+weighted avg       0.83      0.82      0.83        55
+
+
+Grau 1.0:
+  Amostras: 119
+  Acurácia: 0.529
+  Precision (macro): 0.644
+  Recall (macro): 0.438
+  F1-Score (macro): 0.421
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.52      0.89      0.66        56
+         0.0       1.00      0.17      0.29        35
+         1.0       0.41      0.25      0.31        28
+
+    accuracy                           0.53       119
+   macro avg       0.64      0.44      0.42       119
+weighted avg       0.64      0.53      0.47       119
+
+
+Grau 2.0:
+  Amostras: 77
+  Acurácia: 0.662
+  Precision (macro): 0.510
+  Recall (macro): 0.437
+  F1-Score (macro): 0.416
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.00      0.00      0.00         5
+         0.0       0.91      0.33      0.49        30
+         1.0       0.62      0.98      0.76        42
+
+    accuracy                           0.66        77
+   macro avg       0.51      0.44      0.42        77
+weighted avg       0.69      0.66      0.60        77
+
+
+Grau 3.0:
+  Amostras: 61
+  Acurácia: 0.574
+  Precision (macro): 0.404
+  Recall (macro): 0.467
+  F1-Score (macro): 0.420
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.51      0.84      0.64        25
+         0.0       0.70      0.56      0.62        25
+         1.0       0.00      0.00      0.00        11
+
+    accuracy                           0.57        61
+   macro avg       0.40      0.47      0.42        61
+weighted avg       0.50      0.57      0.52        61
+
+
+Grau 4.0:
+  Amostras: 36
+  Acurácia: 0.694
+  Precision (macro): 0.474
+  Recall (macro): 0.474
+  F1-Score (macro): 0.466
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.00      0.00      0.00         1
+         0.0       0.77      0.59      0.67        17
+         1.0       0.65      0.83      0.73        18
+
+    accuracy                           0.69        36
+   macro avg       0.47      0.47      0.47        36
+weighted avg       0.69      0.69      0.68        36
+
+
+Grau 5.0:
+  Amostras: 23
+  Acurácia: 0.609
+  Precision (macro): 0.405
+  Recall (macro): 0.442
+  F1-Score (macro): 0.422
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.60      0.60      0.60        10
+         0.0       0.62      0.73      0.67        11
+         1.0       0.00      0.00      0.00         2
+
+    accuracy                           0.61        23
+   macro avg       0.41      0.44      0.42        23
+weighted avg       0.56      0.61      0.58        23
+
+
+Grau 6.0:
+  Amostras: 12
+  Acurácia: 0.417
+  Precision (macro): 0.300
+  Recall (macro): 0.322
+  F1-Score (macro): 0.261
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.00      0.00      0.00         1
+         0.0       0.50      0.17      0.25         6
+         1.0       0.40      0.80      0.53         5
+
+    accuracy                           0.42        12
+   macro avg       0.30      0.32      0.26        12
+weighted avg       0.42      0.42      0.35        12
+
+
+Grau 7.0:
+  Amostras: 3
+  Acurácia: 0.667
+  Precision (macro): 0.333
+  Recall (macro): 0.500
+  F1-Score (macro): 0.400
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       0.67      1.00      0.80         2
+         1.0       0.00      0.00      0.00         1
+
+    accuracy                           0.67         3
+   macro avg       0.33      0.50      0.40         3
+weighted avg       0.44      0.67      0.53         3
+
+
+Grau 8.0:
+  Amostras: 2
+  Acurácia: 1.000
+  Precision (macro): 1.000
+  Recall (macro): 1.000
+  F1-Score (macro): 1.000
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+         1.0       1.00      1.00      1.00         2
+
+    accuracy                           1.00         2
+   macro avg       1.00      1.00      1.00         2
+weighted avg       1.00      1.00      1.00         2
+
+
+Grau 9.0:
+  Amostras: 1
+  Acurácia: 1.000
+  Precision (macro): 1.000
+  Recall (macro): 1.000
+  F1-Score (macro): 1.000
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+        -1.0       1.00      1.00      1.00         1
+
+    accuracy                           1.00         1
+   macro avg       1.00      1.00      1.00         1
+weighted avg       1.00      1.00      1.00         1
+
+
+Grau 10.0:
+  Amostras: 1
+  Acurácia: 1.000
+  Precision (macro): 1.000
+  Recall (macro): 1.000
+  F1-Score (macro): 1.000
+  Relatório detalhado:
+              precision    recall  f1-score   support
+
+         1.0       1.00      1.00      1.00         1
+
+    accuracy                           1.00         1
+   macro avg       1.00      1.00      1.00         1
+weighted avg       1.00      1.00      1.00         1
+
+
+============================================================
+COMPARAÇÃO: MODELO BASE vs MODELO HIERÁRQUICO
+============================================================
+Modelo Base:
+  Acurácia: 0.436
+  F1-Score (macro): 0.377
+
+Modelo Hierárquico:
+  Acurácia: 0.305
+  F1-Score (macro): 0.243
+
+Diferença:
+  Acurácia: -0.131
+  F1-Score: -0.134
+
+Resultados salvos em: resultados_classificacao_hierarquica.joblib
