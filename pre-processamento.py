@@ -107,12 +107,12 @@ class ProcessadorDataset:
 
         # geração das embeddings
         self.carregar_modelo_tokenizer()
-        self.gerar_embeddings()
         self.encode_labels()
-
         # geração do grau de distância
         calculator = DepthCalculator(self.df)
         self.df = calculator.processar_arquivo()
+
+        self.gerar_embeddings()
 
         joblib.dump(self.df, 'embeddings/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
 
@@ -170,15 +170,18 @@ class ProcessadorDataset:
 # --------------------------------------------------
 
 def main():
-    fileName = 'conjuntoDeDados'
+    fileNames = ['conjuntoDeDados', 'conjuntoDeDados_teste', 'conjuntoDeDados_treinamento']
     # df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
-    df = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
 
-    processador = ProcessadorDataset(df)
-    processador.processar_dataset(fileName)
-    dados_input = processador.gerar_input()
+    for fileName in fileNames:
+        print(f'Processando {fileName}...')
+        df = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
 
-    joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
+        processador = ProcessadorDataset(df)
+        processador.processar_dataset(fileName)
+        dados_input = processador.gerar_input()
+
+        joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
 
 
 if __name__ == "__main__":
