@@ -136,7 +136,7 @@ class DepthCalculator:
             print(f"Grau mediano: {df['grau_distancia'].median():.2f}")
         
         # Análise por thread
-        print("\n=== ANÁLISE POR THREAD ===")
+        """ print("\n=== ANÁLISE POR THREAD ===")
         for target_id in df['target_id'].unique():
             thread_df = df[df['target_id'] == target_id]
             thread_com_grau = thread_df[thread_df['grau_distancia'].notna()]
@@ -144,7 +144,7 @@ class DepthCalculator:
             if len(thread_com_grau) > 0:
                 print(f"Thread {target_id}: {len(thread_com_grau)}/{len(thread_df)} comentários com grau calculado")
                 print(f"  Grau máximo: {thread_com_grau['grau_distancia'].max()}")
-                print(f"  Grau médio: {thread_com_grau['grau_distancia'].mean():.2f}")
+                print(f"  Grau médio: {thread_com_grau['grau_distancia'].mean():.2f}") """
 
     def processar_arquivo(self):
         """
@@ -170,11 +170,11 @@ class DepthCalculator:
         
         print("\nAnálise dos resultados:")
         self.analisar_distribuicao_graus()
-        
+        """ 
         # Mostrar algumas linhas de exemplo
         print("\nExemplos de comentários com grau de distância:")
         exemplos = df_com_grau[df_com_grau['grau_distancia'].notna()][['id', 'target_id', 'grau_distancia', 'message']].head(10)
-        print(exemplos)
+        print(exemplos) """
         
         return df_com_grau
     

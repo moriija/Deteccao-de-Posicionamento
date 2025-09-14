@@ -1,0 +1,798 @@
+Processando conjuntoDeDados...
+Using device: cuda
+
+Colunas disponíveis:
+['target_id', 'target_message', 'id', 'parent_id', 'author', 'parent_name', 'parent_message', 'message', 'parent_label', 'target_parent_message', 'target_and_message', 'label', 'label_enc', 'parent_label_enc']
+
+Calculando graus de distância...
+
+Análise dos resultados:
+=== ANÁLISE DA DISTRIBUIÇÃO DOS GRAUS DE DISTÂNCIA ===
+Total de comentários: 2515
+Comentários com grau calculado: 2204
+Comentários sem grau calculado: 311
+
+Distribuição dos graus de distância:
+  Grau 0: 249 comentários (9.9%)
+  Grau 1: 527 comentários (21.0%)
+  Grau 2: 382 comentários (15.2%)
+  Grau 3: 283 comentários (11.3%)
+  Grau 4: 222 comentários (8.8%)
+  Grau 5: 165 comentários (6.6%)
+  Grau 6: 106 comentários (4.2%)
+  Grau 7: 76 comentários (3.0%)
+  Grau 8: 63 comentários (2.5%)
+  Grau 9: 46 comentários (1.8%)
+  Grau 10: 31 comentários (1.2%)
+  Grau 11: 22 comentários (0.9%)
+  Grau 12: 15 comentários (0.6%)
+  Grau 13: 7 comentários (0.3%)
+  Grau 14: 5 comentários (0.2%)
+  Grau 15: 4 comentários (0.2%)
+  Grau 16: 1 comentários (0.0%)
+
+Grau máximo: 16.0
+Grau médio: 3.13
+Grau mediano: 2.00
+
+=== ANÁLISE POR THREAD ===
+Thread 1: 61/62 comentários com grau calculado
+  Grau máximo: 9.0
+  Grau médio: 4.11
+Thread 2: 33/34 comentários com grau calculado
+  Grau máximo: 10.0
+  Grau médio: 4.58
+Thread 3: 15/16 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 3.73
+Thread 4: 24/25 comentários com grau calculado
+  Grau máximo: 12.0
+  Grau médio: 6.46
+Thread 5: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 6: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 7: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 8: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 9: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 10: 5/6 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 11: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 12: 6/7 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.83
+Thread 13: 8/9 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.75
+Thread 14: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 15: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 16: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 17: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.25
+Thread 18: 23/24 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.70
+Thread 19: 25/26 comentários com grau calculado
+  Grau máximo: 15.0
+  Grau médio: 6.16
+Thread 20: 7/8 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.43
+Thread 21: 6/7 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.83
+Thread 22: 12/13 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.17
+Thread 23: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 24: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 25: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 26: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 27: 9/10 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.44
+Thread 28: 11/12 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.73
+Thread 29: 12/13 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.25
+Thread 30: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 31: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.25
+Thread 32: 8/9 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.25
+Thread 33: 11/12 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.45
+Thread 34: 8/9 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.50
+Thread 35: 19/20 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.68
+Thread 36: 6/7 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.67
+Thread 37: 5/6 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 38: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 39: 5/6 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 40: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 41: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 42: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 43: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.60
+Thread 44: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 45: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 46: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 47: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 48: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 49: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 50: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 51: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 52: 10/11 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.70
+Thread 53: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 54: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 55: 6/7 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.33
+Thread 56: 6/7 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.83
+Thread 57: 10/11 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.70
+Thread 58: 6/7 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 59: 60/61 comentários com grau calculado
+  Grau máximo: 16.0
+  Grau médio: 6.25
+Thread 60: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 61: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 62: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 63: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 64: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 65: 9/10 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.56
+Thread 66: 6/7 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.17
+Thread 67: 4/5 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.75
+Thread 68: 35/36 comentários com grau calculado
+  Grau máximo: 11.0
+  Grau médio: 4.66
+Thread 69: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 70: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 71: 7/8 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.29
+Thread 72: 13/14 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.46
+Thread 73: 10/11 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.20
+Thread 74: 22/23 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.27
+Thread 75: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 76: 13/14 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.69
+Thread 77: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 78: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 79: 11/12 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.45
+Thread 80: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 81: 17/18 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 4.41
+Thread 82: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 83: 7/8 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.43
+Thread 84: 23/24 comentários com grau calculado
+  Grau máximo: 11.0
+  Grau médio: 4.52
+Thread 85: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 86: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 87: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 88: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 89: 13/14 comentários com grau calculado
+  Grau máximo: 12.0
+  Grau médio: 6.00
+Thread 90: 80/81 comentários com grau calculado
+  Grau máximo: 15.0
+  Grau médio: 6.67
+Thread 91: 14/15 comentários com grau calculado
+  Grau máximo: 10.0
+  Grau médio: 4.64
+Thread 92: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 93: 43/44 comentários com grau calculado
+  Grau máximo: 13.0
+  Grau médio: 5.88
+Thread 94: 10/11 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.60
+Thread 95: 8/9 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.62
+Thread 96: 35/36 comentários com grau calculado
+  Grau máximo: 12.0
+  Grau médio: 5.86
+Thread 97: 5/6 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 98: 22/23 comentários com grau calculado
+  Grau máximo: 9.0
+  Grau médio: 4.91
+Thread 99: 5/6 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.80
+Thread 100: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 101: 5/6 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.40
+Thread 102: 17/18 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 3.65
+Thread 103: 6/7 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.50
+Thread 104: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 105: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 106: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 107: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 108: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 109: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 110: 5/6 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 111: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 112: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 113: 22/23 comentários com grau calculado
+  Grau máximo: 11.0
+  Grau médio: 4.91
+Thread 114: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 115: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 116: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 117: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 118: 6/7 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.83
+Thread 119: 12/13 comentários com grau calculado
+  Grau máximo: 10.0
+  Grau médio: 4.92
+Thread 120: 11/12 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 121: 18/19 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 3.17
+Thread 122: 23/24 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.74
+Thread 123: 20/21 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.75
+Thread 124: 12/13 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.75
+Thread 125: 21/22 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 3.38
+Thread 126: 10/11 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.40
+Thread 127: 6/7 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 128: 17/18 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.82
+Thread 129: 19/20 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 4.21
+Thread 130: 16/17 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.38
+Thread 131: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 132: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 133: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 134: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 135: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 136: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 137: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.80
+Thread 138: 14/15 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 3.36
+Thread 139: 13/14 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.69
+Thread 140: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 141: 9/10 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 4.00
+Thread 142: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 143: 14/15 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.21
+Thread 144: 5/6 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.40
+Thread 145: 4/5 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.75
+Thread 146: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 147: 5/6 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.80
+Thread 148: 9/10 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 3.33
+Thread 149: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 150: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 151: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 152: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 153: 6/7 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.17
+Thread 154: 5/6 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 155: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 156: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 157: 8/9 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.38
+Thread 158: 28/29 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 3.86
+Thread 159: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 160: 4/5 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.75
+Thread 161: 11/12 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.45
+Thread 162: 5/6 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.80
+Thread 163: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 164: 14/15 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 1.93
+Thread 165: 5/6 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 166: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 167: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 168: 39/40 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 3.41
+Thread 169: 27/28 comentários com grau calculado
+  Grau máximo: 14.0
+  Grau médio: 5.07
+Thread 170: 32/33 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 3.53
+Thread 171: 69/70 comentários com grau calculado
+  Grau máximo: 13.0
+  Grau médio: 4.70
+Thread 172: 4/5 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.75
+Thread 173: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 174: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 175: 11/12 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.36
+Thread 176: 16/17 comentários com grau calculado
+  Grau máximo: 12.0
+  Grau médio: 5.19
+Thread 177: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 178: 21/22 comentários com grau calculado
+  Grau máximo: 11.0
+  Grau médio: 5.76
+Thread 179: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 180: 7/8 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.14
+Thread 181: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 182: 22/23 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 2.82
+Thread 183: 7/8 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.00
+Thread 184: 5/6 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 185: 12/13 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.75
+Thread 186: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 187: 7/8 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.00
+Thread 188: 13/14 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 4.15
+Thread 189: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 190: 11/12 comentários com grau calculado
+  Grau máximo: 9.0
+  Grau médio: 4.36
+Thread 191: 16/17 comentários com grau calculado
+  Grau máximo: 11.0
+  Grau médio: 5.06
+Thread 192: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 193: 8/9 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 194: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 195: 11/12 comentários com grau calculado
+  Grau máximo: 10.0
+  Grau médio: 5.00
+Thread 196: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 197: 7/8 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 1.86
+Thread 198: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 199: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 200: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 201: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 202: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.25
+Thread 203: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 204: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 205: 5/6 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 206: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 207: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 208: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 209: 12/13 comentários com grau calculado
+  Grau máximo: 7.0
+  Grau médio: 3.17
+Thread 210: 8/9 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.00
+Thread 211: 9/10 comentários com grau calculado
+  Grau máximo: 8.0
+  Grau médio: 4.00
+Thread 212: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 213: 15/16 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.40
+Thread 214: 23/24 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.22
+Thread 215: 11/12 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.18
+Thread 216: 38/39 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.55
+Thread 217: 40/41 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 3.48
+Thread 218: 13/14 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.62
+Thread 219: 7/8 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.71
+Thread 220: 15/16 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.47
+Thread 221: 9/10 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.11
+Thread 222: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 223: 19/20 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 1.89
+Thread 224: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 225: 3/4 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.67
+Thread 226: 1/64 comentários com grau calculado
+  Grau máximo: 0.0
+  Grau médio: 0.00
+Thread 227: 4/5 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.25
+Thread 228: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 229: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 230: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 231: 4/5 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.50
+Thread 232: 5/6 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.80
+Thread 233: 4/5 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.75
+Thread 234: 7/8 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.71
+Thread 235: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 236: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 237: 3/4 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+Thread 238: 7/8 comentários com grau calculado
+  Grau máximo: 4.0
+  Grau médio: 2.14
+Thread 239: 7/8 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.43
+Thread 240: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 241: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 242: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 243: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 244: 2/3 comentários com grau calculado
+  Grau máximo: 1.0
+  Grau médio: 0.50
+Thread 245: 6/7 comentários com grau calculado
+  Grau máximo: 5.0
+  Grau médio: 2.50
+Thread 246: 14/15 comentários com grau calculado
+  Grau máximo: 6.0
+  Grau médio: 2.93
+Thread 247: 8/9 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.38
+Thread 248: 7/8 comentários com grau calculado
+  Grau máximo: 3.0
+  Grau médio: 1.71
+Thread 249: 8/9 comentários com grau calculado
+  Grau máximo: 2.0
+  Grau médio: 1.00
+
+Exemplos de comentários com grau de distância:
+        id  target_id  grau_distancia                                            message
+0  jun76kr          1             0.0  Incoerência da direita: pregam menos Estado, l...
+1  juna2pp          1             1.0  E olha que aqui tá cheio de liberais no sub, m...
+2  junarew          1             2.0  Daí dizem que defender o controle do Estado na...
+3  junbgq9          1             3.0  Faz uma enquete sobre legalização do aborto pa...
+4  juncvrw          1             4.0  Pois é... outra vez: aborto não é questão de E...
+5  junft04          1             5.0  Se depender dos conservadores, eles vão proibi...
+6  juobcf5          1             6.0  Sim,se tem célula tem vida....o mínimo que voc...
+7  junu232          1             4.0  Imagina ser contra assassinato de inocentes né...
+8  junwyu8          1             5.0  >Imagina ser contra assassinato de inocentes n...
+9  juo0mxa          1             6.0  Uma bactéria em marte = Vida.\n\nUm feto no út...

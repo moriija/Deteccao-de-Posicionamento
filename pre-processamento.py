@@ -119,11 +119,12 @@ class ProcessadorDataset:
 
     def gerar_input(self):
         df = self.df
-        X_combined = self.selecionar_features()   # tambem filtra df
+        X_combined, graus_distancia = self.selecionar_features()   # tambem filtra df
         dados_input = {
             'features': X_combined,
             'target': df['label_enc'].values,  # Labels codificadas
-            'parent_label': df['parent_label_enc'].values.reshape(-1, 1) # Alterna estrutura pra 2D
+            'parent_label': df['parent_label_enc'].values.reshape(-1, 1), # Alterna estrutura pra 2D
+            'grau_distancia': graus_distancia  # Array alinhado dos graus de distância
         }
         return dados_input
 
@@ -164,17 +165,23 @@ class ProcessadorDataset:
         print("Shape of parent_label:", parent_label.shape)
         print("Shape of emb_atual:", emb_atual.shape)
         print("Shape of X_combined:", X_combined.shape) """
+        graus_distancia = df_filtrado['grau_distancia'].values  # Array alinhado dos graus de distância
+
         self.df = df_filtrado
-        return X_combined
+        return X_combined, graus_distancia
 
 # --------------------------------------------------
 
 def main():
-    fileNames = ['conjuntoDeDados', 'conjuntoDeDados_teste', 'conjuntoDeDados_treinamento']
+    fileNames = [
+        'conjuntoDeDados'
+         ,'conjuntoDeDados_teste'
+         ,'conjuntoDeDados_treinamento'
+                 ]
     # df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
 
     for fileName in fileNames:
-        print(f'Processando {fileName}...')
+        print(f'\n ===== Processando {fileName}... =======')
         df = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
 
         processador = ProcessadorDataset(df)
