@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from transformers import AutoTokenizer, AutoModel
 import joblib
-
+from calcular_grau_distancia import DepthCalculator
 
 class ProcessadorDataset:
     def __init__(self, df_ori, device=None):
@@ -61,8 +61,8 @@ class ProcessadorDataset:
     # SALVAR EMBEDDINGS
     def gerar_embeddings(self):
         # Gerar embeddings das mensagens de cada comentário
-        embeddings = [self.get_embeddings(text, self.tokenizer, self.model) for text in df['message']]
         df = self.df
+        embeddings = [self.get_embeddings(text) for text in df['message']]
         df['embedding'] = embeddings
         # checar por duplicatas
         df['embedding_tuple'] = df['embedding'].apply(lambda x: tuple(x)) # Converter cada embedding para tupla (ou string) para comparação
@@ -102,14 +102,18 @@ class ProcessadorDataset:
 
     # Alterações no dataset e geração das embeddings (se precisa), salva como .joblib
     def processar_dataset(self, fileName):
-        # manipulacao do dataset original
-        self.df_ori = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8') 
+        # manipulacao do dataset original 
         self.gerar_entrada_alvo()
 
         # geração das embeddings
         self.carregar_modelo_tokenizer()
         self.gerar_embeddings()
         self.encode_labels()
+
+        # geração do grau de distância
+        calculator = DepthCalculator(self.df)
+        self.df = calculator.processar_arquivo()
+
         joblib.dump(self.df, 'embeddings/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
 
 
@@ -167,10 +171,13 @@ class ProcessadorDataset:
 
 def main():
     fileName = 'conjuntoDeDados'
-    df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
+    # df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
+    df = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8')
+
     processador = ProcessadorDataset(df)
-    processador.processar_dataset()
+    processador.processar_dataset(fileName)
     dados_input = processador.gerar_input()
+
     joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
 
 
