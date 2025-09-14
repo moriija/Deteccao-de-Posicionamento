@@ -62,12 +62,15 @@ class ProcessadorDataset:
     def gerar_embeddings(self):
         # Gerar embeddings das mensagens de cada comentário
         df = self.df
-        embeddings = [self.get_embeddings(text) for text in df['message']]
-        df['embedding'] = embeddings
+
+        df['embedding'] = [self.get_embeddings(text) for text in df['message']]
+        df['parent_emb'] = [self.get_embeddings(text) for text in df['parent_message']]
+        df['target_emb'] = [self.get_embeddings(text) for text in df['target_message']]
+
         # checar por duplicatas
-        df['embedding_tuple'] = df['embedding'].apply(lambda x: tuple(x)) # Converter cada embedding para tupla (ou string) para comparação
+        # df['embedding_tuple'] = df['embedding'].apply(lambda x: tuple(x)) # Converter cada embedding para tupla (ou string) para comparação
         # duplicates = df[df.duplicated(subset=['embedding_tuple'], keep=False)]  # Agora sim, checar por duplicatas de conteúdo
-        df = df.drop(columns=['embedding_tuple'])
+        # df = df.drop(columns=['embedding_tuple'])
         # checar por nulos
         # nulls = df[df['embedding'].isnull()] # 0
         self.df = df
@@ -112,63 +115,42 @@ class ProcessadorDataset:
         calculator = DepthCalculator(self.df)
         self.df = calculator.processar_arquivo()
 
+        # Precisa ser feito depois dos outros processamentos
+        # Garante alinhamento perturbado por linhas não convenientes como Alvos
+        mask = (
+            self.df['label_enc'].notna() &
+            self.df['message'].notna() &
+            self.df['parent_message'].notna() &
+            self.df['target_message'].notna()
+        )
+        self.df = self.df[mask].copy()
         self.gerar_embeddings()
-
-        joblib.dump(self.df, 'embeddings/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
-
-
-    def gerar_input(self):
-        df = self.df
-        X_combined, graus_distancia = self.selecionar_features()   # tambem filtra df
-        dados_input = {
-            'features': X_combined,
-            'target': df['label_enc'].values,  # Labels codificadas
-            'parent_label': df['parent_label_enc'].values.reshape(-1, 1), # Alterna estrutura pra 2D
-            'grau_distancia': graus_distancia  # Array alinhado dos graus de distância
-        }
-        return dados_input
 
 
     def selecionar_features(self):
         df = self.df
-        # Embedding do Alvo
-        # vou separar em dataframes por target_id (cada thread). Deixará depois os diferentes jeitos de separação de features mais facil
-        # Cria um dicionário: chave = target_id, valor = DataFrame da thread
-        threads = {target_id: group for target_id, group in df.groupby('target_id')}
-
-        # mapear msg alvo (id='Alvo' definido no pre-process) pra cada thread (target_id)
-        target_id_to_emb_alvo = {}
-        for target_id, thread_df in threads.items():
-            target_id_to_emb_alvo[target_id] = thread_df[thread_df['id'] == 'Alvo']['embedding'].values[0]
-
-        # lista das emb_alvo alinhada com as linhas do df confomre
-        emb_alvos = []
-        for target_id in df['target_id']:
-            emb_alvos.append(target_id_to_emb_alvo[target_id])
-        emb_alvos = np.array(emb_alvos)
-
-        # Filtrar emb_alvos para corresponder ao df filtrado
-        mask = df['label_enc'].notna().values
-        emb_alvos = emb_alvos[mask]
-
-        # Precisa ser feito depois dos outros processamentos
-        # Garante alinhamento com a lista de emb_alvos
-        df_filtrado = df[mask].copy()
 
         # Features: a embedding do comentário, a do alvo e a parent_label.
-        emb_atual = np.array(df_filtrado['embedding'].tolist())
-        X_combined = np.concatenate((emb_alvos, emb_atual), axis=1)
+        emb_atual = np.array(df['embedding'].tolist())
+        emb_alvo = np.array(df['target_emb'].tolist())
+        emb_parent = np.array(df['parent_emb'].tolist())
 
         """     
         # Verificando as dimensões (DEBUG)
-        print("Shape of emb_alvos:", emb_alvos.shape)
-        print("Shape of parent_label:", parent_label.shape)
-        print("Shape of emb_atual:", emb_atual.shape)
-        print("Shape of X_combined:", X_combined.shape) """
-        graus_distancia = df_filtrado['grau_distancia'].values  # Array alinhado dos graus de distância
+        print("Shape of emb_alvo:", emb_alvos.shape)
+        """
+        graus_distancia = df['grau_distancia'].values  # Array alinhado dos graus de distância
 
-        self.df = df_filtrado
-        return X_combined, graus_distancia
+        dados_input = {
+            'target_emb': emb_alvo,
+            'emb': emb_atual,
+            'parent_emb': emb_parent,
+            'label': df['label_enc'].values,  # Labels codificadas
+            'parent_label': df['parent_label_enc'].values.reshape(-1, 1), # Alterna estrutura pra 2D
+            'thread': df['target_id'].values, # ID da thread
+            'grau_distancia': graus_distancia  # Array alinhado dos graus de distância
+        }
+        return dados_input, df
 
 # --------------------------------------------------
 
@@ -186,9 +168,10 @@ def main():
 
         processador = ProcessadorDataset(df)
         processador.processar_dataset(fileName)
-        dados_input = processador.gerar_input()
+        dados_input, df_processado = processador.selecionar_features()
 
         joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
+        joblib.dump(df_processado, 'Dados_preprocessados/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
 
 
 if __name__ == "__main__":
