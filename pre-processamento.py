@@ -142,11 +142,13 @@ class ProcessadorDataset:
         graus_distancia = df['grau_distancia'].values  # Array alinhado dos graus de distância
 
         dados_input = {
+            'id': df['id'].values,  # IDs originais
+            'parent_id': df['parent_id'].values,  # IDs dos pais
             'target_emb': emb_alvo,
             'emb': emb_atual,
             'parent_emb': emb_parent,
             'label': df['label_enc'].values,  # Labels codificadas
-            'parent_label': df['parent_label_enc'].values.reshape(-1, 1), # Alterna estrutura pra 2D
+            'parent_label': df['parent_label_enc'].values.reshape(-1, 1), # formato 2D, necessario pra modelagem
             'thread': df['target_id'].values, # ID da thread
             'grau_distancia': graus_distancia  # Array alinhado dos graus de distância
         }
