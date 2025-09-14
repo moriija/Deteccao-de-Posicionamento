@@ -9,10 +9,10 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f'Using device: {device}')  # Verifica se está usando GPU ou CPU
 
 # MANIPULAÇÃO DO DF
-def manipular_dataframe(df_ori):
+def gerar_entrada_alvo(df_ori):
     df = df_ori.copy()
     # acessaremos as mensagens "parent" e "alvo/target" a partir do id. (Diminiuir o tanto de processamento p/ embeddings)
-    # vou criar linhas de mensagem Alvo
+    # vou criar linhas de mensagem Alvo, para que possamos referencia-las conforme a thread
     linhas_alvo = []
     for thread, group in df.groupby('target_id'):
         msg = group['target_message'].iloc[0]
@@ -70,23 +70,35 @@ def gerar_embeddings(df, tokenizer, model):
 def encode_labels(df):
     # https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02/
     # considerando "Discorda", "Neutro", "Concorda" como variáveis ordinais.
-    ordinalEncoding = {
+    ordinal_encoding = {
         'Discorda': -1,
         'Neutro': 0,
         'Concorda': 1
     }
-    # juntar labels "Neutro"
-    df['label'] = df['label'].replace('Discute', 'Neutro').replace('Pede Informações', 'Neutro').replace('Irrelevante', 'Neutro')
-    df['parent_label'] = df['parent_label'].replace('Discute', 'Neutro').replace('Pede Informações', 'Neutro').replace('Irrelevante', 'Neutro')
-    df['label_enc'] = df['label'].map(ordinalEncoding)
-    df['parent_label_enc'] = df['parent_label'].map(ordinalEncoding)
-    return df
-    
-def processar_dataset(fileName):
 
+    # Consolidar labels "Neutro"
+    df['label'] = df['label'].replace({
+        'Discute': 'Neutro', 
+        'Pede Informações': 'Neutro', 
+        'Irrelevante': 'Neutro'
+    })
+    df['parent_label'] = df['parent_label'].replace({
+        'Discute': 'Neutro', 
+        'Pede Informações': 'Neutro', 
+        'Irrelevante': 'Neutro'
+    })
+    
+    # Aplicar codificação
+    df['label_enc'] = df['label'].map(ordinal_encoding)
+    df['parent_label_enc'] = df['parent_label'].map(ordinal_encoding)
+    
+    return df
+
+# Alterações no dataset e geração das embeddings, salva como .joblib
+def processar_dataset(fileName):
     # manipulacao do dataset original
     df_ori = pd.read_csv('Dados/'+ fileName + '.tsv', sep='\t', decimal = ',', encoding = 'UTF-8') 
-    df = manipular_dataframe(df_ori)
+    df = gerar_entrada_alvo(df_ori)
 
     # geração das embeddings
     model, tokenizer = carregar_modelo_tokenizer()
@@ -98,11 +110,12 @@ def processar_dataset(fileName):
 
 # %%
 
-# Selecionando as Features
+# 
 def selecionar_features(df):
 
     # Embedding do Alvo
     # vou separar em dataframes por target_id (cada thread). Deixará depois os diferentes jeitos de separação de features mais facil
+
     # Cria um dicionário: chave = target_id, valor = DataFrame da thread
     threads = {target_id: group for target_id, group in df.groupby('target_id')}
 
@@ -120,20 +133,23 @@ def selecionar_features(df):
     # Filtrar emb_alvos para corresponder ao df filtrado
     mask = df['label_enc'].notna().values
     emb_alvos = emb_alvos[mask]
-    df = df[mask]  # Garante alinhamento de índices
+
+    # Precisa ser feito depois dos outros processamentos
+    # Garante alinhamento com a lista de emb_alvos
+    df_filtrado = df[mask].copy()
 
     # Features: a embedding do comentário, a do alvo e a parent_label.
-    emb_atual = np.array(df['embedding'].tolist())
-
-    # FEATURES
+    emb_atual = np.array(df_filtrado['embedding'].tolist())
     X_combined = np.concatenate((emb_alvos, emb_atual), axis=1)
+
     """     
-    # Verificando as dimensões
+    # Verificando as dimensões (DEBUG)
     print("Shape of emb_alvos:", emb_alvos.shape)
     print("Shape of parent_label:", parent_label.shape)
     print("Shape of emb_atual:", emb_atual.shape)
     print("Shape of X_combined:", X_combined.shape) """
-    return df, X_combined
+
+    return df_filtrado, X_combined
 
 # --------------------------------------------------
 
