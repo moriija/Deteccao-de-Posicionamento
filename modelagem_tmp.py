@@ -1,7 +1,7 @@
 import joblib
 import numpy
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, accuracy_score, f1_score
 from sklearn.model_selection import cross_validate, StratifiedKFold, GroupKFold
 from sklearn.model_selection import StratifiedGroupKFold
 
@@ -70,7 +70,7 @@ def avalia_modelo(nome, X_tr, X_te):
     y_pred = modelo_rf.predict(X_te)
     print(classification_report(y_test, y_pred))
 
-
+""" 
 # Independente: sem contexto estrutural
 features_tr = numpy.concatenate((dados['emb'], dados['target_emb']), axis=1)
 features_te = numpy.concatenate((dados_teste['emb'], dados_teste['target_emb']), axis=1)
@@ -80,7 +80,7 @@ avalia_modelo("Modelo Independente: Nenhum contexto estrutural", features_tr, fe
 features_tr = numpy.concatenate((dados['emb'], dados['target_emb'], dados['parent_emb']), axis=1)
 features_te = numpy.concatenate((dados_teste['emb'], dados_teste['target_emb'], dados_teste['parent_emb']), axis=1)
 avalia_modelo("Modelo Independente: Com mensagem pai", features_tr, features_te)
-
+ """
 # Dependente: com parent_label
 features_tr = numpy.concatenate((dados['emb'], dados['target_emb'], dados['parent_label']), axis=1)
 features_te = numpy.concatenate((dados_teste['emb'], dados_teste['target_emb'], dados_teste['parent_label']), axis=1)
@@ -156,5 +156,45 @@ for i in range(len(parent_ids_test)):
 
 # Adiciona as labels previstas dos pais!
 dados_teste['predicted_p_label'] = predicted_p.reshape(-1, 1)
-# print(f"predicted_p_label gerado em dados_teste: shape={dados_teste['predicted_p_label'].shape}")
+print(f"predicted_p_label gerado em dados_teste: shape={dados_teste['predicted_p_label'].shape}")
 
+# ===== Avaliação usando o pai previsto no conjunto de teste =====
+def avalia_dependente_com_pai_previsto(modelo_dep, dados_teste):
+    X_te_predpai = numpy.concatenate(
+        (
+            dados_teste['emb'],
+            dados_teste['target_emb'],
+            dados_teste['predicted_p_label'],
+        ),
+        axis=1,
+    )
+    y_pred = modelo_dep.predict(X_te_predpai)
+    print("\nModelo Dependente: Com posicionamento pai previsto")
+    print(classification_report(y_test, y_pred, zero_division=0))
+
+    # Detalhamento por grau de profundidade
+    graus = dados_teste.get('grau_distancia', None)
+    if graus is None:
+        print("Aviso: 'grau_distancia' não encontrado em dados_teste; pulando análise por profundidade.")
+        return
+
+    graus = numpy.asarray(graus).ravel()
+    if len(graus) != len(y_test):
+        print("Aviso: tamanho de 'grau_distancia' difere do y_test; pulando análise por profundidade.")
+        return
+
+    valores = numpy.unique(graus)
+    print("\nDesempenho por grau de profundidade:")
+    for g in valores:
+        idx = numpy.where(graus == g)[0]
+        if idx.size == 0:
+            continue
+        yt = y_test[idx]
+        yp = y_pred[idx]
+        acc = accuracy_score(yt, yp)
+        f1m = f1_score(yt, yp, average='macro', zero_division=0)
+        f1w = f1_score(yt, yp, average='weighted', zero_division=0)
+        print(f"- grau={g} | n_test={idx.size} | acc={acc:.3f} | f1_macro={f1m:.3f} | f1_weighted={f1w:.3f}")
+        print(classification_report(yt, yp, zero_division=0))
+
+avalia_dependente_com_pai_previsto(modelo_dep, dados_teste)
