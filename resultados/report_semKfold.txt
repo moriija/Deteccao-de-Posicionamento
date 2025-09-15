@@ -1,3 +1,5 @@
+PS C:\Users\isacm\Documents\dev\Dados\IC\Deteccao-de-Posicionamento> & C:/Users/isacm/miniconda3/envs/pln_env/python.exe c:/Users/isacm/Documents/dev/Dados/IC/Deteccao-de-Posicionamento/modelagem_tmp.py
+
 Modelo Independente: Nenhum contexto estrutural
               precision    recall  f1-score   support
 
@@ -35,20 +37,113 @@ weighted avg       0.53      0.50      0.47       349
 
 predicted_p_label gerado em dados_teste: shape=(349, 1)
 
-Modelo Dependente: Com posicionamento pai previsto (exclui grau=0)
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
               precision    recall  f1-score   support
 
-        -1.0       0.43      0.22      0.29       125
-         0.0       0.45      0.31      0.37        78
-         1.0       0.42      0.70      0.52       130
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
 
-    accuracy                           0.43       333
-   macro avg       0.43      0.41      0.39       333
-weighted avg       0.43      0.43      0.40       333
+Modelo Dependente: Com posicionamento pai
+              precision    recall  f1-score   support
+
+        -1.0       0.62      0.25      0.35       125
+         0.0       0.47      0.32      0.38        79
+         1.0       0.49      0.83      0.61       145
+
+    accuracy                           0.50       349
+   macro avg       0.53      0.46      0.45       349
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+              precision    recall  f1-score   support
+
+        -1.0       0.62      0.25      0.35       125
+         0.0       0.47      0.32      0.38        79
+         1.0       0.49      0.83      0.61       145
+
+    accuracy                           0.50       349
+   macro avg       0.53      0.46      0.45       349
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+        -1.0       0.62      0.25      0.35       125
+         0.0       0.47      0.32      0.38        79
+         1.0       0.49      0.83      0.61       145
+
+    accuracy                           0.50       349
+   macro avg       0.53      0.46      0.45       349
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+
+    accuracy                           0.50       349
+   macro avg       0.53      0.46      0.45       349
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (inclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+              precision    recall  f1-score   support
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+        -1.0       0.42      0.22      0.28       125
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+         0.0       0.43      0.30      0.36        79
+         1.0       0.45      0.71      0.55       145
+         1.0       0.45      0.71      0.55       145
+
+
+    accuracy                           0.44       349
+   macro avg       0.43      0.41      0.40       349
+weighted avg       0.43      0.44      0.41       349
 
 
 Comparação base vs. sequencial por grau (acc, f1_macro, f1_weighted):
-- grau=1.0 | n=89 | base: acc=0.382, f1_macro=0.370, f1_weighted=0.343 | sequencial: acc=0.404, f1_macro=0.397, f1_weighted=0.375
+- grau=0.0 | n=16 | base: acc=0.812, f1_macro=0.310, f1_weighted=0.871 | sequencial: acc=0.750, f1_macro=0.296, f1_weighted=0.833
+- grau=1.0 | n=89 | base: acc=0.382, f1_macro=0.370, f1_weighted=0.343 | sequencial: acc=0.404, f1_macro=0.394, f1_weighted=0.375
 - grau=2.0 | n=66 | base: acc=0.636, f1_macro=0.476, f1_weighted=0.614 | sequencial: acc=0.606, f1_macro=0.454, f1_weighted=0.595
 - grau=3.0 | n=36 | base: acc=0.444, f1_macro=0.414, f1_weighted=0.434 | sequencial: acc=0.389, f1_macro=0.370, f1_weighted=0.361
 - grau=4.0 | n=35 | base: acc=0.629, f1_macro=0.417, f1_weighted=0.564 | sequencial: acc=0.457, f1_macro=0.327, f1_weighted=0.446

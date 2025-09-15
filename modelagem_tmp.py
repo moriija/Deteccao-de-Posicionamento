@@ -164,7 +164,7 @@ class ModelEvaluator:
     Métodos:
     - evaluate_cv_and_test: imprime métricas de CV e o relatório no teste.
     - evaluate_with_predicted_parent: avalia usando parent_label previsto
-      (exclui grau=0) e detalha por grau.
+      (inclui grau=0) e detalha por grau.
     - compare_base_vs_sequential_by_depth: compara base vs. sequencial por grau (>0).
     """
 
@@ -221,11 +221,11 @@ class ModelEvaluator:
         return model
 
     def evaluate_with_predicted_parent(self, trained_model):
-        """Avalia o teste usando parent_label PREVISTO (exclui grau=0)."""
+        """Avalia o teste usando parent_label PREVISTO (inclui grau=0)."""
         # Monta X de teste a partir do parent_label previsto já injetado
         X_te_predpai = FeatureBuilder.dep_test_with_predicted_parent(self.ds)
 
-        # Exclui grau==0 das métricas (avaliamos apenas nós com pai)
+        # Inclui grau==0 nas métricas (avaliamos todos os nós com grau definido)
         graus = self.ds.test.get('grau_distancia', None)
         mask = None
         if graus is not None and len(graus) == len(self.ds.y_test):
@@ -235,7 +235,8 @@ class ModelEvaluator:
                 except Exception:
                     return None
             g_float = np.array([_to_float(v) for v in graus])
-            mask = (g_float > 0)
+            # Considera todos os graus válidos (>= 0)
+            mask = (g_float >= 0)
 
         if mask is not None:
             X_eval = X_te_predpai[mask]
@@ -248,7 +249,7 @@ class ModelEvaluator:
 
         # Relatório agregado
         y_pred = trained_model.predict(X_eval)
-        print("\nModelo Dependente: Com posicionamento pai previsto (exclui grau=0)")
+        print("\nModelo Dependente: Com posicionamento pai previsto (inclui grau=0)")
         print(classification_report(y_true, y_pred, labels=self.classes_, zero_division=0))
 
         # Relatórios por grau de profundidade
@@ -274,7 +275,7 @@ class ModelEvaluator:
     def compare_base_vs_sequential_by_depth(self, trained_model):
         """Compara métricas por grau entre BASE (pai real) e SEQUENCIAL (pai previsto).
 
-        A comparação considera apenas graus > 0 no cenário sequencial.
+        A comparação agora considera também o grau 0 (todos os graus válidos).
         """
         # Predições com parent_label REAL (base)
         _, X_te_base = FeatureBuilder.dep_true_parent_label(self.ds)
@@ -284,7 +285,7 @@ class ModelEvaluator:
         X_te_seq = FeatureBuilder.dep_test_with_predicted_parent(self.ds)
         y_pred_seq = trained_model.predict(X_te_seq)
 
-        # Máscara de graus > 0
+        # Máscara de graus válidos (>= 0)
         graus = self.ds.test.get('grau_distancia', None)
         if graus is None:
             print("Aviso: 'grau_distancia' ausente; sem comparação por profundidade.")
@@ -297,10 +298,10 @@ class ModelEvaluator:
             except Exception:
                 return np.nan
         g_float = np.array([_to_float(v) for v in graus])
-        mask_gt0 = g_float > 0
+        mask_valid = g_float >= 0
 
         # Lista de graus válidos para comparar
-        graus_validos = np.unique(graus[mask_gt0])
+        graus_validos = np.unique(graus[mask_valid])
         if graus_validos.size == 0:
             print("Nenhum grau > 0 para comparar.")
             return
@@ -404,17 +405,17 @@ class ParentLabelPredictor:
         predicted_parent_for_row = np.empty(N, dtype=y_dtype)
         predicted_label_test = np.empty(N, dtype=y_dtype)
 
-        # Itera os graus em ordem crescente, ignorando grau 0
+        # Itera os graus em ordem crescente
         degs = np.unique(g_float[np.isfinite(g_float)])
-        degs = [d for d in degs if d > 0]
+        degs = [d for d in degs]
         for d in sorted(degs):
             idxs = np.where(g_float == d)[0]
             for i in idxs:
                 pid_key = self._norm_id(parent_ids_test[i])
 
                 # 1) Determina o parent_label a ser usado como feature do filho i
-                if d == 1:
-                    p_lbl = 1  # regra: grau 1 sempre parent_label=1 (Concorda)
+                if d == 0:
+                    p_lbl = 1  # regra: grau 0 sempre parent_label=1 (Concorda)
                 else:
                     if pid_key is not None and pid_key in id_to_idx_test:
                         # Pai está no teste e já foi previsto em um grau anterior
@@ -449,16 +450,16 @@ class ParentLabelPredictor:
                 )
                 predicted_label_test[i] = trained_model.predict(X_i)[0]
 
-        # Cria a máscara de avaliação: consideramos apenas amostras com grau > 0
-        mask_gt0 = g_float > 0
-        self.ds.test['dep_eval_mask'] = mask_gt0
+        # Cria a máscara de avaliação: consideramos todas as amostras com grau >= 0
+        mask_valid = g_float >= 0
+        self.ds.test['dep_eval_mask'] = mask_valid
 
         # Injeta predicted_p_label (Nx1) no dicionário de teste.
         # - Para grau==1, será 1 (pela regra acima).
         # - Para grau>1, será a label PREVISTA do pai.
         # - Para grau==0, o valor não será usado (máscara exclui), mas definimos
         #   como maioria para manter o tipo de dado (dtype) estável.
-        predicted_p = np.where(mask_gt0, predicted_parent_for_row, majority_label).astype(y_dtype)
+        predicted_p = np.where(np.isfinite(g_float), predicted_parent_for_row, majority_label).astype(y_dtype)
         self.ds.test['predicted_p_label'] = predicted_p.reshape(-1, 1)
         print(f"predicted_p_label gerado em dados_teste: shape={self.ds.test['predicted_p_label'].shape}")
 
@@ -515,3 +516,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
