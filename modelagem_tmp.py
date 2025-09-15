@@ -6,7 +6,6 @@ from sklearn.model_selection import cross_validate, StratifiedKFold, GroupKFold
 from sklearn.model_selection import StratifiedGroupKFold
 
 
-
 dados = joblib.load('input\\input_conjuntoDeDados_treinamento.joblib')
 dados_teste = joblib.load('input\\input_conjuntoDeDados_teste.joblib')
 
@@ -61,9 +60,9 @@ def avalia_modelo(nome, X_tr, X_te):
     n_folds = getattr(cv, 'n_splits', 'n/a')
     print(
         f"CV ({n_folds}-fold) => "
-        f"acc: {resultados['test_acc'].mean():.3f} ± {resultados['test_acc'].std():.3f}, "
-        f"f1_macro: {resultados['test_f1_macro'].mean():.3f} ± {resultados['test_f1_macro'].std():.3f}, "
-        f"f1_weighted: {resultados['test_f1_weighted'].mean():.3f} ± {resultados['test_f1_weighted'].std():.3f}"
+        f"acc: {resultados['test_acc'].mean():.3f} +/- {resultados['test_acc'].std():.3f}, "
+        f"f1_macro: {resultados['test_f1_macro'].mean():.3f} +/- {resultados['test_f1_macro'].std():.3f}, "
+        f"f1_weighted: {resultados['test_f1_weighted'].mean():.3f} +/- {resultados['test_f1_weighted'].std():.3f}"
     )
 
     # Ajuste final no treino completo e avaliação no conjunto de teste
@@ -86,4 +85,76 @@ avalia_modelo("Modelo Independente: Com mensagem pai", features_tr, features_te)
 features_tr = numpy.concatenate((dados['emb'], dados['target_emb'], dados['parent_label']), axis=1)
 features_te = numpy.concatenate((dados_teste['emb'], dados_teste['target_emb'], dados_teste['parent_label']), axis=1)
 avalia_modelo("Modelo Dependente: Com posicionamento pai", features_tr, features_te)
+
+
+# ===== Geração de predicted_p_label em dados_teste =====
+# Treina o mesmo modelo dependente no treino completo
+X_dep_tr = numpy.concatenate((dados['emb'], dados['target_emb'], dados['parent_label']), axis=1)
+X_dep_te = numpy.concatenate((dados_teste['emb'], dados_teste['target_emb'], dados_teste['parent_label']), axis=1)
+
+modelo_dep = RandomForestClassifier(n_estimators=100, random_state=42)
+modelo_dep.fit(X_dep_tr, y_train)
+
+# Prediz os rótulos para todas as linhas do teste (serão usados como rótulos dos pais)
+y_pred_test_all = modelo_dep.predict(X_dep_te)
+
+
+def _norm_id(v):
+    """Normaliza ID para string; trata None/NaN retornando None."""
+    try:
+        if v is None:
+            return None
+        if isinstance(v, float) and numpy.isnan(v):
+            return None
+    except Exception:
+        pass
+    return str(v)
+
+
+# Mapas id -> índice para localizar pais no conjunto de teste e/ou treino
+ids_test = dados_teste['id']
+ids_train = dados['id']
+id_to_idx_test = {}
+for i in range(len(ids_test)):
+    key = _norm_id(ids_test[i])
+    if key is not None:
+        id_to_idx_test[key] = i
+id_to_idx_train = {}
+for i in range(len(ids_train)):
+    key = _norm_id(ids_train[i])
+    if key is not None:
+        id_to_idx_train[key] = i
+
+parent_ids_test = dados_teste['parent_id']
+
+# Fallback: rótulo majoritário do treino, caso o pai não esteja em teste nem treino
+values, counts = numpy.unique(y_train, return_counts=True)
+majority_label = values[numpy.argmax(counts)]
+
+predicted_p = numpy.empty(len(parent_ids_test), dtype=y_pred_test_all.dtype)
+
+for i in range(len(parent_ids_test)):
+    pid_key = _norm_id(parent_ids_test[i])
+    if pid_key is not None and pid_key in id_to_idx_test:
+        # Pai está no conjunto de teste: usa a predição feita para a linha do pai
+        predicted_p[i] = y_pred_test_all[id_to_idx_test[pid_key]]
+    elif pid_key is not None and pid_key in id_to_idx_train:
+        # Pai está no treino: calcula predição específica do pai usando o modelo dependente
+        pidx = id_to_idx_train[pid_key]
+        X_p = numpy.concatenate(
+            (
+                dados['emb'][pidx].reshape(1, -1),
+                dados['target_emb'][pidx].reshape(1, -1),
+                dados['parent_label'][pidx].reshape(1, -1),
+            ),
+            axis=1,
+        )
+        predicted_p[i] = modelo_dep.predict(X_p)[0]
+    else:
+        # Pai não encontrado: aplica fallback
+        predicted_p[i] = majority_label
+
+# Adiciona as labels previstas dos pais!
+dados_teste['predicted_p_label'] = predicted_p.reshape(-1, 1)
+# print(f"predicted_p_label gerado em dados_teste: shape={dados_teste['predicted_p_label'].shape}")
 
