@@ -1,0 +1,69 @@
+
+Modelo Independente: Nenhum contexto estrutural
+CV (5-fold) => acc: 0.451 +/- 0.030, f1_macro: 0.395 +/- 0.035, f1_weighted: 0.419 +/- 0.040
+              precision    recall  f1-score   support
+
+        -1.0       0.52      0.22      0.31       125
+         0.0       0.44      0.35      0.39        79
+         1.0       0.47      0.76      0.58       145
+
+    accuracy                           0.48       349
+   macro avg       0.48      0.45      0.43       349
+weighted avg       0.48      0.48      0.44       349
+
+
+Modelo Independente: Com mensagem pai
+CV (5-fold) => acc: 0.486 +/- 0.027, f1_macro: 0.439 +/- 0.028, f1_weighted: 0.461 +/- 0.034
+              precision    recall  f1-score   support
+
+        -1.0       0.53      0.30      0.39       125
+         0.0       0.39      0.39      0.39        79
+         1.0       0.52      0.70      0.59       145
+
+    accuracy                           0.49       349
+   macro avg       0.48      0.47      0.46       349
+weighted avg       0.49      0.49      0.47       349
+
+
+Modelo Dependente: Com posicionamento pai
+CV (5-fold) => acc: 0.468 +/- 0.039, f1_macro: 0.425 +/- 0.038, f1_weighted: 0.442 +/- 0.040
+              precision    recall  f1-score   support
+
+        -1.0       0.62      0.25      0.35       125
+         0.0       0.47      0.32      0.38        79
+         1.0       0.49      0.83      0.61       145
+
+    accuracy                           0.50       349
+   macro avg       0.53      0.46      0.45       349
+weighted avg       0.53      0.50      0.47       349
+
+predicted_p_label gerado em dados_teste: shape=(349, 1)
+
+Modelo Dependente: Com posicionamento pai previsto (exclui grau=0)
+              precision    recall  f1-score   support
+
+        -1.0       0.43      0.22      0.29       125
+         0.0       0.45      0.31      0.37        78
+         1.0       0.42      0.70      0.52       130
+
+    accuracy                           0.43       333
+   macro avg       0.43      0.41      0.39       333
+weighted avg       0.43      0.43      0.40       333
+
+
+Comparação base vs. sequencial por grau (acc, f1_macro, f1_weighted):
+- grau=1.0 | n=89 | base: acc=0.382, f1_macro=0.370, f1_weighted=0.343 | sequencial: acc=0.404, f1_macro=0.397, f1_weighted=0.375
+- grau=2.0 | n=66 | base: acc=0.636, f1_macro=0.476, f1_weighted=0.614 | sequencial: acc=0.606, f1_macro=0.454, f1_weighted=0.595
+- grau=3.0 | n=36 | base: acc=0.444, f1_macro=0.414, f1_weighted=0.434 | sequencial: acc=0.389, f1_macro=0.370, f1_weighted=0.361
+- grau=4.0 | n=35 | base: acc=0.629, f1_macro=0.417, f1_weighted=0.564 | sequencial: acc=0.457, f1_macro=0.327, f1_weighted=0.446
+- grau=5.0 | n=31 | base: acc=0.387, f1_macro=0.388, f1_weighted=0.381 | sequencial: acc=0.226, f1_macro=0.229, f1_weighted=0.219
+- grau=6.0 | n=20 | base: acc=0.550, f1_macro=0.237, f1_weighted=0.497 | sequencial: acc=0.450, f1_macro=0.281, f1_weighted=0.477
+- grau=7.0 | n=15 | base: acc=0.533, f1_macro=0.489, f1_weighted=0.578 | sequencial: acc=0.400, f1_macro=0.363, f1_weighted=0.444
+- grau=8.0 | n=12 | base: acc=0.500, f1_macro=0.375, f1_weighted=0.438 | sequencial: acc=0.417, f1_macro=0.311, f1_weighted=0.367
+- grau=9.0 | n=10 | base: acc=0.500, f1_macro=0.484, f1_weighted=0.579 | sequencial: acc=0.500, f1_macro=0.484, f1_weighted=0.579
+- grau=10.0 | n=8 | base: acc=0.375, f1_macro=0.182, f1_weighted=0.341 | sequencial: acc=0.250, f1_macro=0.133, f1_weighted=0.250
+- grau=11.0 | n=6 | base: acc=0.333, f1_macro=0.300, f1_weighted=0.317 | sequencial: acc=0.167, f1_macro=0.133, f1_weighted=0.200
+- grau=12.0 | n=2 | base: acc=1.000, f1_macro=1.000, f1_weighted=1.000 | sequencial: acc=0.500, f1_macro=0.333, f1_weighted=0.500
+- grau=13.0 | n=1 | base: acc=0.000, f1_macro=0.000, f1_weighted=0.000 | sequencial: acc=0.000, f1_macro=0.000, f1_weighted=0.000
+- grau=14.0 | n=1 | base: acc=0.000, f1_macro=0.000, f1_weighted=0.000 | sequencial: acc=0.000, f1_macro=0.000, f1_weighted=0.000
+- grau=15.0 | n=1 | base: acc=0.000, f1_macro=0.000, f1_weighted=0.000 | sequencial: acc=0.000, f1_macro=0.000, f1_weighted=0.000
