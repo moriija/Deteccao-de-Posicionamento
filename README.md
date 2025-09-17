@@ -10,6 +10,8 @@ Dessa forma, o intuito deste trabalho é investigar o impacto do fenômeno de pr
 
 Para avaliar o desempenho dos modelos, foram utilizadas as métricas de acurácia, F1-Macro e F1-Weighted, com análises agregadas e por grau de profundidade na thread. Os resultados obtidos mostraram que os modelos que utilizam o contexto do comentário pai (seja seu texto ou seu rótulo real) alcançam resultados ligeiramente superiores em relação ao modelo sem contexto. No entanto, a abordagem sequencial, que espelha o uso em produção, teve seu desempenho degradado, com a acurácia caindo de 50% para 44%, o que confirma a hipótese da propagação de erro. Essa tendência de queda se mostrou mais acentuada em níveis mais profundos da conversa, evidenciando que erros nos comentários iniciais se acumulam e comprometem as predições subsequentes.
 
+<img width="847" height="626" alt="image" src="https://github.com/user-attachments/assets/559869d1-3ec0-430c-ade9-b673ada0109a" />
+
 Etapas principais do fluxo de scripts:
 1. Carrega arquivo de dados pré-processados (features prontas).
 2. Separa treino e teste por thread (para evitar vazamento de informação).
