@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from transformers import AutoTokenizer, AutoModel
 import joblib
-from calcular_grau_distancia import DepthCalculator
+from utils.DepthCalculator import DepthCalculator
 
 class ProcessadorDataset:
     def __init__(self, df_ori, device=None):
@@ -171,7 +171,7 @@ def main():
         dados_input, df_processado = processador.selecionar_features()
 
         joblib.dump(dados_input, 'input/input_' + fileName + '.joblib')  # Salvar as features combinadas
-        joblib.dump(df_processado, 'Dados_preprocessados/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
+        joblib.dump(df_processado, 'datasets_preprocessados/'+ fileName + '.joblib') # salvar o df com todas as transformações (p consulta)
 
 
 if __name__ == "__main__":
