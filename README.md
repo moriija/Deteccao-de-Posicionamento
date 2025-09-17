@@ -1,8 +1,9 @@
+## Contexto
 Códigos utilizados para o projeto de Iniciação Científica "**Impacto da Propagação de Erro na Classificação Sequencial de Posicionamento em Threads de Redes Sociais**".
 
 Universidade de São Paulo - Orientador: Prof. Dr. Luciano Antonio Digiampietri.
 
-## Resumo:
+## Resumo
 A detecção de posicionamento no Processamento de Língua Natural (PLN) tem ganhado relevância devido ao crescente volume de interações em plataformas digitais, onde a análise automática de debates pode auxiliar no monitoramento de opiniões e na identificação de desinformação. Entretanto, os métodos tradicionais frequentemente se concentram em postagens isoladas, ignorando que, em discussões online, o contexto conversacional e a estrutura hierárquica das threads exercem um papel fundamental para a correta interpretação. Muitos dos modelos que consideram essa estrutura interdependente se apoiam em predições anteriores, tornando-se suscetíveis à propagação de erro, onde uma falha inicial compromete a classificação de toda a sequência subsequente.
 
 Dessa forma, o intuito deste trabalho é investigar o impacto do fenômeno de propagação de erro na classificação sequencial de posicionamento. Para isso, o processo utilizado foi da comparação do desempenho entre modelos "independentes", que analisam cada comentário de forma isolada, e modelos "dependentes", que utilizam o rótulo previsto do comentário anterior ("pai") como uma variável preditora para explorar explicitamente o impacto do erro. 
