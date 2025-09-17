@@ -1,12 +1,4 @@
 """
-Etapas principais do fluxo:
-1. Carrega arquivo de dados pré-processados (features prontas).
-2. Separa treino e teste por thread (para evitar vazamento de informação).
-3. Treina um modelo dependente (usa emb + target_emb + parent_label).
-4. Gera, no teste, as labels de pais de forma sequencial por profundidade.
-5. Avalia desempenho com parent_label real (base) e com parent_label
-   previsto (sequencial), incluindo métricas por grau de profundidade.
-
 O código está organizado em classes para facilitar a extensão:
 - DataSet: empacota os dicionários de treino e teste.
 - FeatureBuilder: monta as matrizes de features (X) para cada cenário.
