@@ -13,8 +13,8 @@ Etapas principais do fluxo:
 2) Separa treino e teste por thread (para evitar vazamento de informação).
 3) Treina um modelo dependente (usa emb + target_emb + parent_label).
 4) Gera, no teste, as labels de pais de forma sequencial por profundidade.
-   - Para grau=1, força parent_label=1 (Concorda) ao prever o próprio nó.
-   - Para grau>1, usa a label PREVISTA do pai já calculada em graus menores.
+   - Para grau=0, força parent_label=1 (Concorda) ao prever o próprio nó.
+   - Para grau>0, usa a label PREVISTA do pai já calculada em graus menores.
 5) Avalia desempenho com parent_label real (base) e com parent_label
    previsto (sequencial), incluindo métricas por grau de profundidade.
 
@@ -306,28 +306,33 @@ class ModelEvaluator:
             print("Nenhum grau > 0 para comparar.")
             return
 
+        base_rows, seq_rows = [], []    # dfs para os graficos de comparação
         print("\nComparação base vs. sequencial por grau (acc, f1_macro, f1_weighted):")
         for g in graus_validos:
             idx = (graus == g)  # subconjunto de linhas do teste para este grau
             yt = self.ds.y_test[idx]
 
-            # BASE (parent_label real)
+            # BASE
             yp_base = y_pred_base[idx]
             acc_b = accuracy_score(yt, yp_base)
             f1m_b = f1_score(yt, yp_base, average='macro', zero_division=0)
             f1w_b = f1_score(yt, yp_base, average='weighted', zero_division=0)
-
-            # SEQUENCIAL (parent_label previsto já injetado)
+            base_rows.append({'grau': g, 'n': int(idx.sum()), 'acc': acc_b, 'f1_macro': f1m_b, 'f1_weighted': f1w_b})
+            
+            # SEQUENCIAL
             yp_seq = y_pred_seq[idx]
             acc_s = accuracy_score(yt, yp_seq)
             f1m_s = f1_score(yt, yp_seq, average='macro', zero_division=0)
             f1w_s = f1_score(yt, yp_seq, average='weighted', zero_division=0)
+            seq_rows.append({'grau': g, 'n': int(idx.sum()), 'acc': acc_s, 'f1_macro': f1m_s, 'f1_weighted': f1w_s})
 
             print(
                 f"- grau={g} | n={idx.sum()} | "
                 f"base: acc={acc_b:.3f}, f1_macro={f1m_b:.3f}, f1_weighted={f1w_b:.3f} | "
                 f"sequencial: acc={acc_s:.3f}, f1_macro={f1m_s:.3f}, f1_weighted={f1w_s:.3f}"
             )
+
+        return base_rows, seq_rows
 
 
 # =========== Previsor sequencial de parent_label (teste) ===========
@@ -455,9 +460,8 @@ class ParentLabelPredictor:
         self.ds.test['dep_eval_mask'] = mask_valid
 
         # Injeta predicted_p_label (Nx1) no dicionário de teste.
-        # - Para grau==1, será 1 (pela regra acima).
-        # - Para grau>1, será a label PREVISTA do pai.
-        # - Para grau==0, o valor não será usado (máscara exclui), mas definimos
+        # - Para grau==0, será 1 (pela regra acima).
+        # - Para grau>0, será a label PREVISTA do pai.
         #   como maioria para manter o tipo de dado (dtype) estável.
         predicted_p = np.where(np.isfinite(g_float), predicted_parent_for_row, majority_label).astype(y_dtype)
         self.ds.test['predicted_p_label'] = predicted_p.reshape(-1, 1)
@@ -485,34 +489,44 @@ def main():
     dados, dados_teste = split_train_test_by_thread(all_data)
     ds = DataSet(dados, dados_teste)
 
-    # 3) Define o esquema de validação cruzada (por grupo quando possível)
+    # Definir o esquema de validação cruzada (por grupo quando possível)
     cv = CVSelector.make(ds.y_train, ds.groups_train)
 
-    # 4) Fábrica de estimadores (fácil trocar por outro modelo/pipeline)
+    # estimadores
     estimator_factory = lambda: RandomForestClassifier(n_estimators=100, random_state=42)
 
     evaluator = ModelEvaluator(estimator_factory, ds, cv)
 
-    # 4.1) Modelo Independente: Nenhum contexto estrutural (emb + target_emb)
+    # Modelo Independente: Nenhum contexto estrutural (emb + target_emb)
     X_tr, X_te = FeatureBuilder.indep_no_context(ds)
     evaluator.evaluate_cv_and_test("Modelo Independente: Nenhum contexto estrutural", X_tr, X_te)
 
-    # 4.2) Modelo Independente: Com mensagem pai (emb + target_emb + parent_emb)
+    # Modelo Independente: Com mensagem pai (emb + target_emb + parent_emb)
     X_tr, X_te = FeatureBuilder.indep_with_parent_emb(ds)
     evaluator.evaluate_cv_and_test("Modelo Independente: Com mensagem pai", X_tr, X_te)
 
-    # 5) Cenário BASE (usa parent_label real no teste)
+    # Modelo Dependente: cenário BASE (usa parent_label real no teste)
     X_tr, X_te = FeatureBuilder.dep_true_parent_label(ds)
     modelo_dep = evaluator.evaluate_cv_and_test("Modelo Dependente: Com posicionamento pai", X_tr, X_te)
 
-    # 6) Geração SEQUENCIAL do parent_label previsto no teste (respeita profundidade)
+
+    # cenário SEQUENCIAL
+    # Geração do parent_label previsto no teste (respeita profundidade)
     predictor = ParentLabelPredictor(ds)
     predictor.inject_predicted_parent_labels(modelo_dep)  # usa o MESMO modelo
 
-    # 7) Avaliação SEQUENCIAL (exclui grau=0) e comparação por grau
+    # Avaliação SEQUENCIAL (exclui grau=0) e comparação por grau
     evaluator.evaluate_with_predicted_parent(modelo_dep)
-    evaluator.compare_base_vs_sequential_by_depth(modelo_dep)
-
+    base_rows, seq_rows = evaluator.compare_base_vs_sequential_by_depth(modelo_dep) # retorna dfs para graficos de avaliação
+    
+    # salvar os dados para os gráficos
+    if base_rows and seq_rows:
+        import pandas as pd
+        df_base = pd.DataFrame(base_rows)
+        df_seq = pd.DataFrame(seq_rows)
+        df_base.to_csv('resultados\\modelagem_base_por_grau.csv', index=False)
+        df_seq.to_csv('resultados\\modelagem_sequencial_por_grau.csv', index=False)
+    
 
 if __name__ == '__main__':
     main()

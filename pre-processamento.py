@@ -159,8 +159,6 @@ class ProcessadorDataset:
 def main():
     fileNames = [
         'conjuntoDeDados'
-         ,'conjuntoDeDados_teste'
-         ,'conjuntoDeDados_treinamento'
                  ]
     # df = joblib.load('embeddings/' + fileName + '.joblib')  # df com embeddings e labels codificadas
 

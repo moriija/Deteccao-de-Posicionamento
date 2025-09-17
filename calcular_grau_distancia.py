@@ -52,17 +52,17 @@ class DepthCalculator:
             thread_df = df_copy[df_copy['target_id'] == target_id].copy()
             
             # Identificar comentários originais (raiz)
-            # Comentários originais têm parent_label como "Alvo da Conversa" ou parent_name como 'Raiz'
+            # Comentários originais tem parent_name como 'Raiz'
             comentarios_originais = thread_df[
-                (thread_df['parent_label'] == 'Alvo da Conversa') | 
                 (thread_df['parent_name'] == 'Raiz')
             ]['id'].tolist()
             
             if not comentarios_originais:
-                # Se não encontrar comentários originais pelos critérios acima,
-                # procurar por comentários sem parent_id (primeiro nível)
-                comentarios_originais = thread_df[thread_df['parent_id'].isnull()]['id'].tolist()
+                print(f"Aviso: Nenhum comentário original encontrado para target_id {target_id}. Pulando thread.")
             
+            if len(comentarios_originais) > 1:
+                print(f"Aviso: Múltiplos comentários originais encontrados para target_id {target_id}.")
+
             # Criar grafo para esta thread
             G = nx.DiGraph()
             
@@ -237,7 +237,7 @@ def main():
     print("Usando versão legacy da função main(). Recomenda-se usar a classe DepthCalculator.")
     
 
-    df = pd.read_csv('Dados/conjuntoDeDados_teste.tsv', sep='\t', decimal=',', encoding='UTF-8')
+    df = pd.read_csv('Dados/conjuntoDeDados.tsv', sep='\t', decimal=',', encoding='UTF-8')
     calculator = DepthCalculator(df)
     df_resultado = calculator.processar_arquivo()
     return df_resultado
